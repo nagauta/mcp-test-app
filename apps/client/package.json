@@ -3,13 +3,23 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "echo 'Add dev script here'",
-    "build": "echo 'Add build script here'",
+    "dev": "tsx src/client",
+    "build": "tsc src/client",
     "test": "echo 'Add test script here'",
     "lint": "echo 'Add lint script here'"
   },
   "dependencies": {
+    "@graphai/agents": "^0.2.2",
     "@modelcontextprotocol/sdk": "^1.0.1",
-    "@modelcontextprotocol/server-filesystem": "^0.5.1"
+    "dotenv": "^16.4.7",
+    "graphai": "^0.6.2"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/server-filesystem": "^0.5.1",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^20",
+    "tsx": "^4.19.2",
+    "typescript": "5.5.4"
   }
 }
