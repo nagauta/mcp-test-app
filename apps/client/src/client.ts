@@ -22,10 +22,36 @@ await client.connect(transport);
 
 const graph_data = {
   version: 0.5,
+  loop: {
+    while: ":continue",
+  },
   nodes: {
-    request: {
-      value: "please tell read /users/myano/downloads/sample/input.csv"
+    continue: {
+      value: true,
+      update: ":checkInput",
     },
+    messages: {
+      // Holds the conversation, the array of messages.
+      value: [],
+      update: ":llm_prompt.messages",
+      isResult: true,
+    },
+    userInput: {
+      // Receives an input from the user.
+      agent: "textInputAgent",
+      params: {
+        message: "You:",
+        required: true,
+      },
+    },
+    checkInput: {
+      // Checks if the user wants to terminate the chat or not.
+      agent: "compareAgent",
+      inputs: { array: [":userInput.text", "!=", "/bye"] },
+    },
+    // request: {
+    //   value: "please tell read /users/myano/downloads/sample/input.csv"
+    // },
     tools: {
       agent: async () => { 
         const result = await client.request(
@@ -44,15 +70,14 @@ const graph_data = {
       },
     },
     llm_prompt: {
-      console: {
-        before: true,
-      },
+      // console: {
+      //   before: true,
+      // },
       agent: "openAIAgent",
-      inputs: { tools: ":tools", prompt: ":request" },
+      inputs: { tools: ":tools", prompt: ":userInput.text" },
     },
     tool_call: {
       agent: async (inputs: any) => {
-        console.log(`xxx: ${JSON.stringify(inputs)}`);
         const resourceContent = await client.request(
           {
             method: "tools/call",
@@ -60,20 +85,24 @@ const graph_data = {
           },
           CallToolResultSchema,
         );
+        console.log(`result: ${JSON.stringify(resourceContent)}`);
         return resourceContent;
       },
       inputs: { tool: ":llm_prompt.tool" },
     },
-    debug: {
-      agent: "copyAgent",
-      params: { namedKey: "key" },
-      console: {
-        after: true,
-      },
-      inputs: { key: ":tool_call.content.$0.text" },
-    },
+    // debug: {
+    //   agent: "copyAgent",
+    //   params: { namedKey: "key" },
+    //   console: {
+    //     after: true,
+    //   },
+    //   inputs: { key: ":tool_call.content.$0.text" },
+    // },
     messagesWithToolRes: {
       // Appends that message to the messages.
+      console: {
+        before: true,
+      },
       agent: "pushAgent",
       inputs: {
         array: ":llm_prompt.messages",
@@ -86,27 +115,29 @@ const graph_data = {
       },
     },
     llm_post_call: {
+      console: {
+        before: true,
+      },
       agent: "openAIAgent",
       inputs: {
         messages: ":messagesWithToolRes.array"
       }
     },
-    final_output: {
-      agent: "copyAgent",
-      params: {
-        namedKey: "text"
+    output: {
+      // Displays the response to the user.
+      agent: "stringTemplateAgent",
+      console: {
+        after: true,
       },
-      isResult: true,
       inputs: {
-        text: ":llm_post_call.text"
-      }
-    }
+        text: "\x1b[32mAgent\x1b[0m: ${:llm_post_call.text}",
+      },
+    },
   }
 };
 
 const graph = new GraphAI(graph_data, { ...agents });
-const results = await graph.run();
-console.log(results);
+await graph.run();
 
 client.close();
 }
