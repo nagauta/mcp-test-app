@@ -20,6 +20,7 @@ const client = new Client({
 const main = async () => {
 await client.connect(transport);
 
+// 
 const graph_data = {
   version: 0.5,
   loop: {
@@ -49,9 +50,6 @@ const graph_data = {
       agent: "compareAgent",
       inputs: { array: [":userInput.text", "!=", "/bye"] },
     },
-    // request: {
-    //   value: "please tell read /users/myano/downloads/sample/input.csv"
-    // },
     tools: {
       agent: async () => { 
         const result = await client.request(
@@ -70,9 +68,6 @@ const graph_data = {
       },
     },
     llm_prompt: {
-      // console: {
-      //   before: true,
-      // },
       agent: "openAIAgent",
       inputs: { tools: ":tools", prompt: ":userInput.text" },
     },
@@ -90,14 +85,6 @@ const graph_data = {
       },
       inputs: { tool: ":llm_prompt.tool" },
     },
-    // debug: {
-    //   agent: "copyAgent",
-    //   params: { namedKey: "key" },
-    //   console: {
-    //     after: true,
-    //   },
-    //   inputs: { key: ":tool_call.content.$0.text" },
-    // },
     messagesWithToolRes: {
       // Appends that message to the messages.
       console: {
