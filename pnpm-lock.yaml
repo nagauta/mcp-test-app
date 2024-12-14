@@ -81,9 +81,6 @@ importers:
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
-      graphai:
-        specifier: ^0.6.2
-        version: 0.6.2
     devDependencies:
       '@raycast/eslint-config':
         specifier: ^1.0.11
@@ -97,9 +94,15 @@ importers:
       eslint:
         specifier: ^8.57.0
         version: 8.57.1
+      graphai:
+        specifier: ^0.6.2
+        version: 0.6.2
       prettier:
         specifier: ^3.3.3
         version: 3.4.1
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
       typescript:
         specifier: ^5.4.5
         version: 5.5.4
@@ -3990,7 +3993,6 @@ packages:
 
   /graphai@0.6.2:
     resolution: {integrity: sha512-9BdgVQH4cUV91ZjS3nOSE4XKQRWhW7itqBU/VmgODff+eBiu9vyJV7UtTYjq1Ip74Ibvvpb8W2dHdg6x90lTXg==}
-    dev: false
 
   /graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
