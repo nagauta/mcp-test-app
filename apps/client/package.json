@@ -9,10 +9,14 @@
     "lint": "echo 'Add lint script here'"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^1.0.8",
     "@graphai/agents": "^0.2.2",
     "@modelcontextprotocol/sdk": "^1.0.1",
+    "ai": "^4.0.18",
     "dotenv": "^16.4.7",
-    "graphai": "^0.6.2"
+    "graphai": "^0.6.2",
+    "mathjs": "^14.0.1",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@modelcontextprotocol/server-filesystem": "^0.5.1",
