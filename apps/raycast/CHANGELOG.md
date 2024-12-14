@@ -1,138 +1,169 @@
-# raycast-ollama Changelog
+# Changelog
 
-## [Improvement and BugFix] - 2024-08-05
+## [Fix] - 2024-11-24
 
-- [Improvement] New action "Continue as Chat" on single shot commands allow continuing conversation on "Chat with Ollama".
-- [BugFix] Custom commands created before "2024-06-03" update, or with incorrect parameters now display error message instead of crashing.
-- [BugFix] Typo fixed on "Make Longer" command.
+- Fix: Fixed Images not rendering if their paths have spaces in them.
 
-## [BugFix] - 2024-06-30
+## [Feature] - 2024-10-09
 
-- Fixed typo on error code 'Raycast Browser Extensions Needed for This Feature'.
+- Feature: Added import/export functionality to Models to prevent potential data loss and alleviate data anxiety.
+- Feature: Introduced a new reusable import/export module, so that it can be used in other parts of the extension in the future.
 
-## [BugFix] - 2024-06-20
+## [Fix] - 2024-10-09
 
-- Fixed Error `keep alive, error missing unit in duration` on **Command 'Create Custom Command'**.
+- Fix: Modified the `useModel` initialization process to update `localStorage` only after initialization is complete, preventing data overwrite. Addresses issues #8977, #14356, and #14125.
+- Chore: Removed `List.EmptyView` when the model list is empty, as the Action panel would remain empty and default models ensure the model list is not empty.
 
-## [BugFix] - 2024-06-19
+## [Feature] - 2024-10-06
 
-- Fixed Error `keep alive, error missing unit in duration`: unit is now required for negative or zero duration time. Use -1s for persistent model on memory or 0s for free up memory immediately.
+- Feature: Change all occurence of `gpt-3.5` and the like to `gpt-4o-mini`, as the latter is cheaper and more efficient.
+- Feature: Update `setOption` to include all model IDs, removing the filter for 'gpt' prefix. (To support `o1` models).
+- Chore: Remove unnecessary union type literals in `src/type.ts:Model.option`, since 'option' was already effectively a 'string'.
 
-## [Improvement] - 2024-06-03
+## [Feature] - 2024-09-02
 
-- **Command 'Manage Models'**: Support for multiple configured Ollama Server, manage and use models from different server.
-- **Command 'Custom Command'**: changed prompt format to the [Raycast Prompt Explorer](https://prompts.ray.so/) one. More details on supported tag on the *README.md*. ***WARNING***: This change combined with allowing multiple Ollama server feature break all configured custom command so all custom commands need to be reconfigured.
-- **Command 'Summarize Website'**: New command that summarize the content of the current web browser tab. For this feature [Raycast Browser Extentision](https://www.raycast.com/browser-extension) is required.
-- **Command 'Chat with Ollama'**: Improved UI, combine models from different Ollama Server and use browser content on prompt with [Raycast Browser Extentision](https://www.raycast.com/browser-extension).
-- Added support for *keep_alive*, you can now chose how many minutes the model must stay on memory.
+- Feature: Support for certain platforms that only accept simple string formats, such as DeepSeek.
 
-## [BugFix] - 2024-03-12
+## [Feature] - 2024-08-26
 
-- [@almoce] Fixed missing first word in answer on `Chat with Ollama`.
+- Feature: Support custom vision model name
 
-## [Improvement and BugFix] - 2024-03-02
+## [Fix] - 2024-08-13
 
-- [Improvement] [@AlexMcDermott] Screenshot on Clipboard can now be used on `Chat with Ollama` and `Describe Content of Image`.
-- [BugFix] Fixed error causing ModelView not showing if model was not configured.
+- Fix: the image width calculation in AnswerDetailView, which previously returned undefined.
+- Update package-lock.json to fix the security vulnerability (npm audit fix)
 
-## [BugFix] - 2024-01-24
+## [Fix] - 2024-08-09
 
-- Fixed `Cannot read properties of undefined (reading 'split')` caused by API route '/api/show' responding with empty 'parameters' value for some models.
+- Fix: An unhandled error was encountered while parsing the CSV file.
+- Chore: Update prompts.csv URL to the latest version
 
-## [BugFix] - 2024-01-12
+## [Fix] - 2024-07-29
 
-- **Command 'Improve Writing'**: fixed error 'Preferred model is not configured in LocalStorage'.
-- Fixed typo on error code 'Prefered model is not configured in LocalStorage'.
+- Restarting a conversation will retain the currently selected model
 
-## [Improvement] - 2024-01-11
+## [Fix] - 2024-07-16
 
-- **Command 'Translate'**: now is required to specify the destination language.
+- Add placeholder to improve accessibility
 
-## [BugFix] - 2024-01-02
+## [Feature] - 2024-06-13
 
-- **Command 'Manage Models'**: fixed bug that cause error `ollama-models | TypeError: Cannot read properties of undefined (reading 'split')` when model show information was undefined.
-- **Command 'Chat With Ollama'**: fixed bug that cause error `ollama-chat | SyntaxError: Expected ',' or '}' after property value in JSON at position 97` when Ollama chat api response with an unformatted JSON response.
-- **Command 'Manage Models'**: fixed bug that cause error `ollama-models | SyntaxError: Unexpected non-whitespace character after JSON at position 30` when Ollama pull api response with an unformatted JSON response.
+- Feature: Add Vision Command Capability on Clipboard Image
+- Feature: Add Vision Command Capability on Finder Image
 
-## [Improvement and BugFix] - 2023-12-20
+## [Chore] - 2024-06-02
 
-- [Improvement] **Command 'Chat With Ollama'**: implemented the new Ollama chat feature, for use this command is now required at least Ollama v0.1.14.
-- [Improvement] **Command 'Chat With Ollama'**: new tag `/image` permit to add an image from clipboard or more than one from Finder selection on the prompt. At least Ollama v0.1.15 and one multimodal model installed are required. Only PNG or JPG image are supported.
-- [Improvement] **Command 'Chat With Ollama'**: new extention setting "Chat Memory Messages" permit to chose how many messages use as memory. By default it use the last 20 messages.
-- [Improvement] **Command 'Chat With Ollama'**: used tags and documents are now showed on metadata section.
-- [Improvement] **New Command 'Describe Content of Image'**: describe the content of the image on the clipboard or from Finder selection on the prompt. At least Ollama v0.1.15 and one multimodal model installed are required. Only PNG or JPG image are supported.
-- [Improvement] **New Command 'Get Text From Image'**: extract the text from the image on the clipboard or more than one from Finder selection on the prompt. At least Ollama v0.1.15 and one multimodal model installed are required. Only PNG or JPG image are supported.
-- [Improvement] **Command 'Custom Command'**: implemented system prompt override and image selection. For image at least Ollama v0.1.15 and one multimodal model installed are required.
-- [Improvement] **Command 'Create Custom Command'**: implemented the new features of 'Custom Command'.
-- [Improvement] **Command 'Manage Models'**: show more information about installed models.
-- [Improvement] Extention setting 'Show Inference Statistics' moved to Actions, use `CMD+Y` to toggle on and off.
-- [BugFix] At Command startup it now verify if preferred model is installed, if not it prompt you to chose a new one.
+- Chore: Improve README about models and vision capabilities
 
-## [Fixed spelling error in extension description] - 2023-12-07
+## [Fix] - 2024-05-16
 
-## [Improvement] - 2023-11-30
+- Fix: add `isAutoFullInput` state machine check
+- Fix: `isAutoTTS` not available in stream mode
+- Feat: support detail show img
+- Feat: support clipboard upload file
+- Fix: question onchange not clear error
 
-- [Improvement] Query you pdf or text based file with Ollama. More information on how to use is on README.md.
-- [Improvement] On Command 'Manage Models' is now possible to view all Modelfile parameters. If a specific parameter isn't set on Modelfile it display the default value.
+## [Fix] - 2024-05-15
 
-## [BugFix] - 2023-11-5
+- Fix: `List.Item.Detail.Markdown` display big image caused Heap out of memory
 
-- [BugFix] Fixed error `ModelsOnRegistry.lengh undefined`.
-- [BugFix] Fixed error `SyntaxError: Unexpected end of JSON input` caused by Ollama Generate API response no longer providing `sample_count` and `sample_duration` fields.
+## [Feature] - 2024-05-14
 
-## [Improvement] - 2023-10-21
+- Feature: support GPT vision input
 
-- [Improvement] New Preference 'Input Source' permit to chose input between 'Selected Text' or 'Clipboard'. Default to 'Selected Text'.
-- [Improvement] New Preference 'Enable Input Source Fallback' if enabled fallback to the other input source if main input is empty. Disabled by default.
+## [Feature] - 2024-04-30
 
-## [Improvement and BugFix] - 2023-09-18
+- Feature: add `Summarize` command to summarize website and YouTube video
+- Refactor: model dropdown save model switch `localstorage` to `cache`
 
-- [Improvement] Moved Model preferences to LocalStorage.
-- [Improvement] Is now possible to modify model on the go throw cmd + m shortcut.
-- [Improvement] Ollama Host is now configurable throw Preferences.
-- [Improvement] Metrics metadata now available on Chat Command. New metrics available: token/s, load_duration, sample_count, sample_duration.
-- [BugFix] Reduced re-rendering on models downloading.
-- Following command no longer available: ollama-ask, ollama-custom-ask, ollama-custom-chat.
+## [Feature] - 2024-04-09
 
-## [Improvement] - 2023-08-15
+- Feature: Support custom model name in `Models` (Enable in preferences)
 
-- New command **Chat with Ollama**: an interactive chat (request / response) with possibility to save multiple conversation and resume them.
-- New command **Create Custom Command**: an easy way for create custom commands with quicklinks.
-- New command **Manage Models**: where you can view installed models, delete them and install new ones.
+## [Fix] - 2024-03-22
 
-## [Improvement and BugFix] - 2023-08-12
+- Fix: `Auto-load Text` and `Use Full Text Input` not working properly
+- Fix: `Ask` `onSelectionChange` race condition
 
-- No longer needed custom MODFILEs.
-- Model no longer restricted to orca and llama. Now can be selected all available Ollama model.
-- Initial implementation of embeddings on code.
-- Resolved bug causing Metadata not showing up.
+## [Chore] - 2024-03-09
 
-## [Improvement] - 2023-08-11
+- Chore: Retrieve `Preferences` dynamically directly from the generated type definition
 
-- Added llama2:70b model. Thanks to [suhaildawood](https://github.com/suhaildawood).
+## [Feature] - 2024-02-21
 
-## [Improvement and BugFix] - 2023-08-7
+- Feature: Integrate awesome-chatgpt-prompts project
 
-- Updated README.md with more information.
-- Changed localhost with 127.0.0.1 it seems more reliable.
+## [Fix] - 2024-02-20
 
-## [Improvement] - 2023-07-31
+- Fix: Inability to answer according to prompt rules or even refusal to answer
 
-- New Command 'Ask Ollama with Custom Prompt' permits to use ask Ollama using a custom prompt. Use it with Quicklinks to create a custom Command.
-- New Command 'Custom Command' permits the creation of a custom command for performing a task on selected text. Use it with Quicklinks to create a custom Command.
-- Code improvement.
+## [Added keywords] - 2024-12-02
 
-## [Improvement] - 2023-07-30
+- Added a few keywords to make the extension easier to find in the store.
 
-- Command 'Ask Ollama' no longer use fallback for text, replaced with query.
-- Inference statistics are disabled by default and can be enabled from extension preferences.
-- Text is displayed in real-time.
+## [Feat] - 2024-01-31
 
-## [Code Improvement and BugFix] - 2023-07-29
+- Feature: Make responses display above the question
 
-- [BugFix] Fixed custom model file path and base model name for llama2.
-- [Code Improvement] Better error handling.
-- [Code Improvement] Added JSDoc documentation.
-- [Code Improvement] Errors, Types, and Ollama functions moved out from main.tsx file.
+## [Fix] - 2024-01-28
 
-## [Initial Version] - 2023-07-28
+- Fix: Proxy not working
+- Fix: Fetching model data lag entered the form view
+- Fix: Switching from "Ask Question" to "Full Text Input", the model change didn't work
+- Chore: Add react hook lint
+
+## [Fix] - 2024-01-19
+
+- Fix: Azure API 401 error
+
+## [Chore] - 2024-01-11
+
+- Migrate openai v3 to v4
+
+## [Fix] - 2024-01-01
+
+- Fix: Markdown output being truncated when streaming enabled with json parse error
+- Fix: Display question improperly in markdown with trailing whitespace
+- Fix: Showing error message when throwing Can't stream message error
+
+## [Fix] - 2023-08-23
+
+- Fixed an authentication error when listing models which caused a crash
+
+## [Fix & Feature] - May, 18 2023
+
+- Feature: Custom API Endpoint
+- Fix: 404 error code while Use Azure is enabled
+
+## [Fix & Feature] - May, 2023
+
+- Feature: Azure OpenAI ([@sykuang](https://github.com/abielzulio/chatgpt-raycast/pull/36))
+- Fix: More verbose on handling the `429` error code
+- Fix: `API` -> `APIKey` ([@k8scat](https://github.com/abielzulio/chatgpt-raycast/pull/32))
+- Fix: Refine docs
+- Fix: JavaScript heap out of memory ([@thanhlongb](https://github.com/abielzulio/extensions/pull/1))
+
+## [Fix & Feature] - April, 9 2023
+
+- Feature: Pause history
+- Fix: Handle the `429` error code
+
+## [Fix] - April, 4 2023
+
+- Fixed an edge case bug causing the conversation to only remember the response to #1.
+
+## [Fix] - March, 29 2023
+
+- Fetch models from the API. This allows to use GPT-4 if enabled on the user's account ([@CruelMoney](https://github.com/abielzulio/chatgpt-raycast/pull/29))
+- Show the error message coming from OpenAI instead of the generic error message ([@CruelMoney](https://github.com/abielzulio/chatgpt-raycast/pull/29))
+- Handle overlimit token usage ([@CruelMoney](https://github.com/abielzulio/chatgpt-raycast/pull/29))
+
+## [Initial release] - March, 26 2023
+
+Introducing ChatGPT for Raycast. Interact with OpenAI's ChatGPT straight from your command bar, with 5 commands available:
+
+1. `Ask` Start a new conversation with ChatGPT by asking a question
+2. `Conversations` → Continue recent conversations without losing context
+3. `Models` → Collection of the user's default and custom models
+4. `Saved Answer` → Collection of the user's saved question and its answer
+5. `History`→ Collection of all the user's questions plus the answers

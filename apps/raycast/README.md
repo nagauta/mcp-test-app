@@ -1,40 +1,123 @@
-<div align="center">
-  <picture>
-    <img alt="logo" height="128px" src="assets/icon@dark.png">
-  </picture>
-  <h1 align="center">Raycast Ollama</h1>
-</div>
+<p align="center">
+<img width=100 src="https://github.com/abielzulio/chatgpt-raycast/blob/main/assets/icon@dark.png?raw=true">
+</p>
 
-Use [Ollama](https://ollama.ai) for local llama inference on Raycast. This application is not directly affiliated with Ollama.ai.
+<h1 align="center">ChatGPT</h1>
 
-## Requirements
+<h3 align="center">
+Interact with OpenAI's ChatGPT right from your command bar
+</h3>
 
-[Ollama](https://ollama.ai) installed and running on your mac. At least one model need to be installed throw Ollama cli tools or with 'Manage Models' Command. You can find all available model [here](https://ollama.ai/library).
+![Conversation View](metadata/1.png)
 
-## How to Use
+# Features
 
-### Command: Manage Models
+### Ask anything, from your favourite thing
 
-View, add, and remove models that are installed locally or on a configured remote Ollama Server. To manage and utilize models from the remote server, use the ***Add Server*** action.
+Straight from your command bar, ask anything that you wanted and get an AI-generated answer without any effort.
 
-### Command: Chat With Ollama
+![Ask anything](metadata/2.png)
 
-Chat with your preferred model from Raycast, with the following features:
+### Personalized for you, really
 
-- ***CMD+M***, *Change Model*: change model when you want and use different one for vision or embedding.
-- ***CMD+S***, *Selection*: Add text from selection or clipboard to the prompt.
-- ***CMD+B***, *Browser Selection Tab*: Add content from selected tab to the prompt. Raycast Browser Extension is required.
-- ***CMD+I***, *Image From Clipboard*: Add jpeg or png image to the prompt. A Model with vision capabilities is required.
-- ***CMD+F***, *File*: Add content from files. This feature is still experimental.
+Customize the model to your liking. Create and edit custom engines beyond your creativity.
 
-From extentions preferences you can chose how many messages use as memory. By default it use the last 20 messages.
+![Custom model](metadata/3.png)
 
-### Command: Create Custom Commands
+### Keep continue, with you
 
-All preconfigured commands are crafted for general use. This command allow you to create a custom command for your specific needs.
+Continue talking about everything right where you left off. Be pro without from zero.
 
-Prompt use [Raycast Prompt Explorer](https://prompts.ray.so/) format with the following tags supported:
+![Initial set-up](metadata/7.png)
 
-- ***{selection}***: Add text from selection or clipboard to the prompt.
-- ***{browser-tab}***: Add content from selected tab to the prompt. Raycast Browser Extension is required. Page format can be changed between: markdown {browser-tab}, html {browser-tab format="html"}, text {browser-tab format="text"}.
-- ***{image}***: Add jpeg or png image to the prompt. A Model with vision capabilities is required.
+### Save the answer, for later
+
+Got the answer that you wanted? Great. Now you can save it without asking again.
+
+![Saving the answer](metadata/4.png)
+
+### Look-up your past, fast
+
+Automatically save all the question and answer so you can go back digging for the answer you're looking, quickly.
+
+![Looking through the question history](metadata/5.png)
+
+# Models availability
+
+### GPT-3.5
+
+- `gpt-3.5-turbo`
+- `gpt-3.5-turbo-0301`
+
+### GPT-4
+
+- `gpt-4`
+- `gpt-4-32k`
+- `gpt-4o`
+
+GPT-4o model supports vision capabilities, which can be enabled in the Models Command when creating or editing a model.
+
+### Custom Models
+
+Modify the preferences properties to configure the API Endpoint and use custom models.
+
+# How to use
+
+This extension requires a valid `Secret Key` as your API Key from [OpenAI](https://platform.openai.com/account/api-keys) with a `pay-as-you-go` plan account (**you'll get a `429` error if you're on a `free-tier` account**).
+
+![Initial set-up](metadata/6.png)
+
+> All the preferences value will be stored locally using [Preferences API](https://developers.raycast.com/api-reference/preferences)
+
+# Preferences
+
+All preferences properties list that can be customize through `Raycast Settings > Extensions > ChatGPT`
+
+| Properties               | Label                  | Value                               | Required | Default                     | Description                                                                                                      |
+| ------------------------ | ---------------------- | ----------------------------------- | -------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `apiKey`                 | API Key                | `string`                            | `true`   | `empty`                     | Your personal OpenAI API key                                                                                     |
+| `useStream`              | Stream Completion      | `boolean`                           | `true`   | `true`                      | Stream the completions of the generated answer                                                                   |
+| `isAutoSaveConversation` | Auto-save Conversation | `boolean`                           | `true`   | `true`                      | Auto-save every conversation that you had with the model                                                         |
+| `isHistoryPaused`        | Pause History          | `boolean`                           | `false`  | `false`                     | Pause the history of the conversation                                                                            |
+| `isAutoLoadText`         | Auto-load              | `boolean`                           | `false`  | `false`                     | Load selected text from your frontmost application to the `question bar` or `full text input form` automatically |
+| `isAutoFullInput`        | Use Full Text Input    | `boolean`                           | `false`  | `false`                     | Switch to `full text input form` from `question bar` automatically whenever you want to ask or type a question   |
+| `isAutoTTS`              | Text-to-Speech         | `boolean`                           | `false`  | `false`                     | Enable auto text-to-speech everytime you get a generated answer                                                  |
+| `useApiEndpoint`         | Use API Endpoint       | `boolean`                           | `false`  | `false`                     | Change the OpenAI's default API endpoint to custom endpoint                                                      |
+| `apiEndpoint`            | API Endpoint           | `string`                            | `false`  | `empty`         | Custom API endpoint                                                     |
+| `useProxy`               | Use Proxy              | `boolean`                           | `false`  | `false`                     | Each question request will be passed through the proxy                                                           |
+| `proxyProtocol`          | Proxy Protocol         | `http`, `https`, `socks4`, `socks5` | `false`  | `http`                      | Proxy protocol option                                                                                            |
+| `proxyHost`              | Proxy Host             | `string`                            | `false`  | `empty`                     | Proxy host value                                                                                                 |
+| `proxyUsername`          | Proxy Username         | `string`                            | `false`  | `empty`                     | Proxy username value                                                                                             |
+| `proxyPassword`          | Proxy Password         | `string`                            | `false`  | `empty`                     | Proxy password value                                                                                             |
+| `useAzure`               | Use Azure OpenAI       | `boolean`                           | `true`   | `false`                     | Use Azure OPENAI rather than OPENAI                                                                              |
+| `azureEndpoint`          | Azure Endpoint         | `string`                            | `false`  | `empty`                     | Azure OpenAI resource endpoint                                                                                   |
+| `azureDeploymentName`    | Azure Deployment       | `string`                            | `false`  | `empty`                     | Azure OpenAI resource deployment                                                                                 |
+
+### How to use Azure OpenAI
+
+1. Copy and paste your Azure OpenAI's `KEY` value to the `API key` field
+
+   ![Enter Azure OpenAI Key](https://github.com/abielzulio/extensions/assets/7030944/9c2797b6-4005-4ddf-9f84-ad74d690ed3a)
+   
+   
+2. Copy and paste your Azure OpenAI `Endpoint` value to the `Azure Endpoint` field. Then, Tick the `Use Azure OpenAI` checkbox
+
+   ![Enter Azure OpenAI Endpoint](https://github.com/abielzulio/extensions/assets/7030944/f09aa681-b36f-4441-aa55-cb55f7cbe248)
+
+
+3. Copy and paste your Azure OpenAI `Model deployment name` value to the `Azure Deployment` field
+
+   ![Enter Azure OpenAI Deployment](https://github.com/abielzulio/extensions/assets/7030944/b2ebaf3b-f961-4c5f-8ea7-6c6f164e3934)
+
+
+# Support
+
+Donate to support the development of this extension. Thank you!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/abielzulio)
+
+---
+
+<p align="right">
+Made with ♥ from Indonesia
+</p>
