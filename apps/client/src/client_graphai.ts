@@ -31,12 +31,12 @@ const graph_data = {
       value: true,
       update: ":checkInput",
     },
-    messages: {
-      // Holds the conversation, the array of messages.
-      value: [],
-      update: ":llm_prompt.messages",
-      isResult: true,
-    },
+    // messages: {
+    //   // Holds the conversation, the array of messages.
+    //   value: [],
+    //   update: ":llm_prompt.messages",
+    //   isResult: true,
+    // },
     userInput: {
       // Receives an input from the user.
       agent: "textInputAgent",
@@ -68,11 +68,15 @@ const graph_data = {
       },
     },
     llm_prompt: {
+      console: {
+        after: true,
+      },
       agent: "openAIAgent",
       inputs: { tools: ":tools", prompt: ":userInput.text" },
     },
     tool_call: {
       agent: async (inputs: any) => {
+        console.log(`${inputs.tool.name} is called`);
         const resourceContent = await client.request(
           {
             method: "tools/call",
@@ -80,16 +84,12 @@ const graph_data = {
           },
           CallToolResultSchema,
         );
-        console.log(`result: ${JSON.stringify(resourceContent)}`);
         return resourceContent;
       },
       inputs: { tool: ":llm_prompt.tool" },
     },
     messagesWithToolRes: {
       // Appends that message to the messages.
-      console: {
-        before: true,
-      },
       agent: "pushAgent",
       inputs: {
         array: ":llm_prompt.messages",
@@ -102,9 +102,6 @@ const graph_data = {
       },
     },
     llm_post_call: {
-      console: {
-        before: true,
-      },
       agent: "openAIAgent",
       inputs: {
         messages: ":messagesWithToolRes.array"
