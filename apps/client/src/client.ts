@@ -123,11 +123,17 @@ const graph_data = {
       anyInput: true,
       inputs: { array: [":messagesWithToolRes.array"] },
     },
+    result: {
+      agent: "copyAgent",
+      inputs: { messages: ":messages" },
+      isResult: true,
+    },
   }
 };
 
 const graph = new GraphAI(graph_data, { ...agents });
-await graph.run();
+const xxx = await graph.run();
+console.log(JSON.stringify(xxx));
 
 client.close();
 }
