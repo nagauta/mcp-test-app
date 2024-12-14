@@ -132,8 +132,7 @@ const graph_data = {
 };
 
 const graph = new GraphAI(graph_data, { ...agents });
-const xxx = await graph.run();
-console.log(JSON.stringify(xxx));
+await graph.run();
 
 client.close();
 }
