@@ -100,14 +100,6 @@ const graph_data = {
       },
       if: ":llm_prompt.tool.name",
     },
-    messagesWithoutToolRes: {
-      // Appends that message to the messages.
-      agent: "pushAgent",
-      inputs: {
-        array: ":llm_prompt.messages",
-      },
-      unless: ":llm_prompt.tool.name",
-    },
     llm_post_call: {
       agent: "openAIAgent",
       inputs: {
@@ -129,7 +121,7 @@ const graph_data = {
       // Receives messages from either case.
       agent: "copyAgent",
       anyInput: true,
-      inputs: { array: [":messagesWithToolRes.array", ":messagesWithoutToolRes.array"] },
+      inputs: { array: [":messagesWithToolRes.array"] },
     },
   }
 };
