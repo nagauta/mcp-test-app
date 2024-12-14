@@ -1,32 +1,54 @@
 import { ActionPanel, Action, Icon, List } from "@raycast/api";
-
-const ITEMS = Array.from(Array(3).keys()).map((key) => {
-  return {
-    id: key,
-    icon: Icon.Bird,
-    title: "Title " + key,
-    subtitle: "Subtitle",
-    accessory: "Accessory",
-  };
-});
+import { useState } from "react";
 
 export default function Command() {
+  const [chat, setChat] = useState<string[]>([]);
+  const [isLoading, setIsLoading]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = useState(false);
+  const [query, setQuery]: [string, React.Dispatch<React.SetStateAction<string>>] = useState("");
   return (
-    <List>
-      {ITEMS.map((item) => (
-        <List.Item
-          key={item.id}
-          icon={item.icon}
-          title={item.title}
-          subtitle={item.subtitle}
-          accessories={[{ icon: Icon.Text, text: item.accessory }]}
-          actions={
-            <ActionPanel>
-              <Action.CopyToClipboard content={item.title} />
-            </ActionPanel>
-          }
-        />
-      ))}
+    <List
+      isShowingDetail={chat && chat.length > 0}
+      searchText={query}
+      onSearchTextChange={(t) => {
+        if (!isLoading) setQuery(t);
+      }}
+      searchBarPlaceholder="Ask..."
+      actions={
+        <ActionPanel>
+          <Action
+            title="Get Answer"
+            icon={Icon.SpeechBubbleActive}
+            onAction={() => {
+              setChat([...chat, "hey"]);
+            }}
+          />
+        </ActionPanel>
+      }
+    >
+      {chat && chat.length > 0 ? (
+        chat.map((item, i) => (
+          <List.Item
+            key={i}
+            id={i.toString()}
+            title={item}
+            detail={<List.Item.Detail markdown={`${item}`} />}
+            actions={
+              <ActionPanel>
+                <Action
+                  title="Get Answer"
+                  icon={Icon.SpeechBubbleActive}
+                  onAction={() => {
+                    setChat([...chat, "hey"]);
+                  }}
+                />
+                <Action.CopyToClipboard content={item} />
+              </ActionPanel>
+            }
+          />
+        ))
+      ) : (
+        <List.EmptyView icon={Icon.Message} title="Start a Conversation" />
+      )}
     </List>
   );
 }
