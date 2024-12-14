@@ -31,6 +31,12 @@ const graph_data = {
       value: true,
       update: ":checkInput",
     },
+    messages: {
+      // Holds the conversation, array of messages.
+      value: [{ role: "system", content: "You are a assistants. please support users following instrunctions" }],
+      update: ":reducer.array.$0",
+      isResult: true,
+    },
     userInput: {
       // Receives an input from the user.
       agent: "textInputAgent",
@@ -62,11 +68,8 @@ const graph_data = {
       },
     },
     llm_prompt: {
-      console: {
-        after: true,
-      },
       agent: "openAIAgent",
-      inputs: { tools: ":tools", prompt: ":userInput.text" },
+      inputs: { messages: ":messages", tools: ":tools", prompt: ":userInput.text" },
     },
     tool_call: {
       agent: async (inputs: any) => {
@@ -97,6 +100,14 @@ const graph_data = {
       },
       if: ":llm_prompt.tool.name",
     },
+    messagesWithoutToolRes: {
+      // Appends that message to the messages.
+      agent: "pushAgent",
+      inputs: {
+        array: ":llm_prompt.messages",
+      },
+      unless: ":llm_prompt.tool.name",
+    },
     llm_post_call: {
       agent: "openAIAgent",
       inputs: {
@@ -113,7 +124,12 @@ const graph_data = {
       inputs: {
         text: "\x1b[32mAgent\x1b[0m: ${:llm_post_call.text}",
       },
-      if: ":llm_prompt.tool.name",
+    },
+    reducer: {
+      // Receives messages from either case.
+      agent: "copyAgent",
+      anyInput: true,
+      inputs: { array: [":messagesWithToolRes.array", ":messagesWithoutToolRes.array"] },
     },
   }
 };
