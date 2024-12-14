@@ -1,0 +1,94 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "raycast-ollama",
+  "title": "Ollama AI",
+  "description": "Perform Local Inference with Ollama",
+  "icon": "icon.png",
+  "author": "massimiliano_pasquini",
+  "categories": ["Productivity"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MassimilianoPasquini97/raycast_ollama.git"
+  },
+  "preferences": [
+    {
+      "name": "ollamaResultViewInput",
+      "description": "Choose preferred input source",
+      "type": "dropdown",
+      "required": false,
+      "title": "Input Source",
+      "data": [
+        {
+          "title": "Selected Text",
+          "value": "SelectedText"
+        },
+        {
+          "title": "Clipboard",
+          "value": "Clipboard"
+        }
+      ],
+      "default": "SelectedText"
+    },
+    {
+      "name": "ollamaResultViewInputFallback",
+      "description": "If there isn't text on main input source enable this option permit to fallback to other input source",
+      "type": "checkbox",
+      "required": false,
+      "title": "Enable Input Source Fallback",
+      "label": "Check for enable input fallback"
+    },
+    {
+      "name": "ollamaChatHistoryMessagesNumber",
+      "description": "Number of last messages to use as memory",
+      "type": "textfield",
+      "required": false,
+      "title": "Chat Memory Messages",
+      "default": "20"
+    },
+    {
+      "name": "ollamaCertificateValidation",
+      "description": "Uncheck for Disable Certificate Validation",
+      "type": "checkbox",
+      "required": false,
+      "default": false,
+      "label": "Certificate Validation Enabled"
+    }
+  ],
+  "commands": [
+    {
+      "name": "ollama-chat",
+      "title": "Chat with Ollama",
+      "subtitle": "Ollama",
+      "description": "Chat with Ollama",
+      "mode": "view"
+    }
+  ],
+  "dependencies": {
+    "@langchain/community": "^0.2.0",
+    "@raycast/api": "^1.55.2",
+    "@raycast/utils": "^1.9.0",
+    "file-type": "^19.0.0",
+    "langchain": "^0.2.0",
+    "mammoth": "^1.7.2",
+    "mime-types": "^2.1.35",
+    "node-fetch": "^3.3.2",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "1.0.5",
+    "@types/mime-types": "^2.1.4",
+    "@types/node": "18.18.4",
+    "@types/react": "18.2.27",
+    "eslint": "^7.32.0",
+    "prettier": "^2.8.8",
+    "typescript": "^4.4.3"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
