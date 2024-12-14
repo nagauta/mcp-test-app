@@ -1,5 +1,6 @@
 import { ActionPanel, Action, Icon, List } from "@raycast/api";
 import { useState } from "react";
+import { callAssistant } from "./client";
 
 export default function Command() {
   const [chat, setChat] = useState<string[]>([]);
@@ -37,7 +38,12 @@ export default function Command() {
                 <Action
                   title="Get Answer"
                   icon={Icon.SpeechBubbleActive}
-                  onAction={() => {
+                  onAction={async () => {
+                    const ai = callAssistant();
+                    ai.then(async (chat) => {
+                      const x = await chat("dirs");
+                      await chat("listup files", x);
+                    });
                     setChat([...chat, "hey"]);
                   }}
                 />
