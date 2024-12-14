@@ -20,7 +20,6 @@ const client = new Client({
 const main = async () => {
 await client.connect(transport);
 
-// 
 const graph_data = {
   version: 0.5,
   loop: {
