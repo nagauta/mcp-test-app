@@ -1,10 +1,11 @@
 {
-  "name": "client",
+  "name": "@repo/client",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "tsx src/client",
     "build": "tsc src/client",
+    "buildLib": "tsc src/clientLib",
     "test": "echo 'Add test script here'",
     "lint": "echo 'Add lint script here'"
   },
