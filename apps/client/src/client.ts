@@ -31,12 +31,6 @@ const graph_data = {
       value: true,
       update: ":checkInput",
     },
-    // messages: {
-    //   // Holds the conversation, the array of messages.
-    //   value: [],
-    //   update: ":llm_prompt.messages",
-    //   isResult: true,
-    // },
     userInput: {
       // Receives an input from the user.
       agent: "textInputAgent",
