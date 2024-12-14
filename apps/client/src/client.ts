@@ -87,6 +87,7 @@ const graph_data = {
         return resourceContent;
       },
       inputs: { tool: ":llm_prompt.tool" },
+      if: ":llm_prompt.tool.name",
     },
     messagesWithToolRes: {
       // Appends that message to the messages.
@@ -100,12 +101,14 @@ const graph_data = {
           content: ":tool_call.content",
         },
       },
+      if: ":llm_prompt.tool.name",
     },
     llm_post_call: {
       agent: "openAIAgent",
       inputs: {
         messages: ":messagesWithToolRes.array"
-      }
+      },
+      if: ":llm_prompt.tool.name",
     },
     output: {
       // Displays the response to the user.
@@ -116,6 +119,7 @@ const graph_data = {
       inputs: {
         text: "\x1b[32mAgent\x1b[0m: ${:llm_post_call.text}",
       },
+      if: ":llm_prompt.tool.name",
     },
   }
 };
